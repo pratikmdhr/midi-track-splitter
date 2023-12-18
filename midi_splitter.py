@@ -32,6 +32,14 @@ def split_midi(input_file):
         # Replace problematic characters in the filename
         safe_track_name = track_name.replace("/", "-").replace("\\", "-")
 
+        # Combine the base name and track name for the output file name
+        output_dir_path = os.path.join(output_directory, base_name)
+        os.makedirs(
+            output_dir_path, exist_ok=True
+        )  # Create nested directory if it doesn't exist
+        output_file_name = f"{base_name}_{safe_track_name}.mid"
+        output_file = os.path.join(output_dir_path, output_file_name)
+
         # Create a new MIDI file with a single track
         new_mid = MidiFile()
         new_track = MidiTrack()
@@ -41,11 +49,7 @@ def split_midi(input_file):
         for msg in track:
             new_track.append(msg)
 
-        # Combine the base name and track name for the output file name
-        output_file_name = f"{base_name}_{safe_track_name}.mid"
-
-        # Save the new MIDI file in the "output" directory
-        output_file = os.path.join(output_directory, output_file_name)
+        # Save the new MIDI file in the output directory
         new_mid.save(output_file)
         print(f'Track {i} saved as "{output_file}"')
 
