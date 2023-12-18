@@ -29,6 +29,11 @@ def split_midi(input_file):
         if track_name is None or track_name == "":
             track_name = f"Track_{i}"
 
+        # Check if the track name contains "drums" (case-insensitive)
+        if "drums" in track_name.lower():
+            print(f'Ignoring track {i} with name "{track_name}" (contains "drums")')
+            continue  # Skip this track
+
         # Replace problematic characters in the filename
         safe_track_name = track_name.replace("/", "-").replace("\\", "-")
 
